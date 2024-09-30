@@ -3,8 +3,8 @@ package br.com.fiap.challenge.model;
 public class Aluno extends Usuario {
     private int id;
 
-    public Aluno(String nome, String email) {
-        super(nome, email);
+    public Aluno(int id,String nome, String email) {
+        super(id, nome, email);
     }
 
     public int getId() {

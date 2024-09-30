@@ -17,7 +17,7 @@ public class AulaDAO {
     }
 
     public void adicionarAula(Aula aula) throws SQLException {
-        String sql = "INSERT INTO aulas (titulo, descricao, professor_id, sala_id) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Aula (titulo, descricao, professor_id, sala_id) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, aula.getTitulo());
             stmt.setString(2, aula.getDescricao());
@@ -29,7 +29,7 @@ public class AulaDAO {
 
     public List<Aula> listarAulas() throws SQLException {
         List<Aula> aulas = new ArrayList<>();
-        String sql = "SELECT * FROM aulas";
+        String sql = "SELECT * FROM Aula";
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
@@ -37,7 +37,8 @@ public class AulaDAO {
                 String descricao = "";
                 String nome = "";
                 String email = "";
-                Professor professor = new Professor(nome,email);
+                int id = 0;
+                Professor professor = new Professor(id,nome,email);
                 int capacidade = 30;
                 Sala sala = new Sala(nome,capacidade);
                 Aula aula = new Aula(titulo,descricao,professor,sala);
@@ -52,7 +53,7 @@ public class AulaDAO {
     }
 
     public void atualizarAula(Aula aula) throws SQLException {
-        String sql = "UPDATE aulas SET titulo = ?, descricao = ?, professor_id = ?, sala_id = ? WHERE id = ?";
+        String sql = "UPDATE  Aula SET titulo = ?, descricao = ?, professor_id = ?, sala_id = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, aula.getTitulo());
             stmt.setString(2, aula.getDescricao());
@@ -64,7 +65,7 @@ public class AulaDAO {
     }
 
     public void deletarAula(int id) throws SQLException {
-        String sql = "DELETE FROM aulas WHERE id = ?";
+        String sql = "DELETE FROM Aula WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();

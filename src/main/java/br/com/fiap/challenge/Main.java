@@ -16,11 +16,11 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         // Criar professores e alunos
-        Professor prof1 = new Professor("Dr. Silva", "dr.silva@fmusp.br");
+        Professor prof1 = new Professor(1,"Dr. Silva", "dr.silva@fmusp.br");
         sistema.adicionarProfessor(prof1);
 
-        Aluno aluno1 = new Aluno("Maria", "maria@fmusp.br");
-        Aluno aluno2 = new Aluno("João", "joao@fmusp.br");
+        Aluno aluno1 = new Aluno(0,"Maria", "maria@fmusp.br");
+        Aluno aluno2 = new Aluno(1,"João", "joao@fmusp.br");
         sistema.adicionarAluno(aluno1);
         sistema.adicionarAluno(aluno2);
 

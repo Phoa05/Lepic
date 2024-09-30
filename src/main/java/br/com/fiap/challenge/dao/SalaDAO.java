@@ -15,7 +15,7 @@ public class SalaDAO {
     }
 
     public void adicionarSala(Sala sala) throws SQLException {
-        String sql = "INSERT INTO salas (nome, capacidade) VALUES (?, ?)";
+        String sql = "INSERT INTO Sala (nome, capacidade) VALUES (?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, sala.getNome());
             stmt.setInt(2, sala.getCapacidade());
@@ -25,7 +25,7 @@ public class SalaDAO {
 
     public List<Sala> listarSalas() throws SQLException {
         List<Sala> salas = new ArrayList<>();
-        String sql = "SELECT * FROM salas";
+        String sql = "SELECT * FROM Sala";
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
@@ -42,7 +42,7 @@ public class SalaDAO {
     }
 
     public void atualizarSala(Sala sala) throws SQLException {
-        String sql = "UPDATE salas SET nome = ?, capacidade = ? WHERE id = ?";
+        String sql = "UPDATE Sala SET nome = ?, capacidade = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, sala.getNome());
             stmt.setInt(2, sala.getCapacidade());
@@ -52,7 +52,7 @@ public class SalaDAO {
     }
 
     public void deletarSala(int id) throws SQLException {
-        String sql = "DELETE FROM salas WHERE id = ?";
+        String sql = "DELETE FROM Sala WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();

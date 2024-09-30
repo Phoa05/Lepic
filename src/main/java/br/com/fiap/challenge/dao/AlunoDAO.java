@@ -14,7 +14,7 @@ public class AlunoDAO {
     }
 
     public void adicionarAluno(Aluno aluno) throws SQLException {
-        String sql = "INSERT INTO alunos (nome, email) VALUES (?, ?)";
+        String sql = "INSERT INTO Aluno (nome, email) VALUES (?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, aluno.getNome());
             stmt.setString(2, aluno.getEmail());
@@ -24,13 +24,14 @@ public class AlunoDAO {
 
     public List<Aluno> listarAlunos() throws SQLException {
         List<Aluno> alunos = new ArrayList<>();
-        String sql = "SELECT * FROM alunos";
+        String sql = "SELECT * FROM Aluno";
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 String nome = "";
                 String email = "";
-                Aluno aluno = new Aluno(nome,email);
+                int idAluno = 0;
+                Aluno aluno = new Aluno(idAluno,nome,email);
                 aluno.setId(rs.getInt("id"));
                 aluno.setNome(rs.getString("nome"));
                 aluno.setEmail(rs.getString("email"));
@@ -41,7 +42,7 @@ public class AlunoDAO {
     }
 
     public void atualizarAluno(Aluno aluno) throws SQLException {
-        String sql = "UPDATE alunos SET nome = ?, email = ? WHERE id = ?";
+        String sql = "UPDATE Aluno SET nome = ?, email = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, aluno.getNome());
             stmt.setString(2, aluno.getEmail());
