@@ -1,56 +1,45 @@
 package br.com.fiap.challenge.model;
 
+import java.time.LocalDate;
+
 public class Aula {
-    private int id;
+    private int idAula;
     private String titulo;
     private String descricao;
+    private LocalDate data;
     private Professor professor;
     private Sala sala;
 
-    public Aula(String titulo, String descricao, Professor professor, Sala sala) {
+    public Aula(int idAula, String titulo, String descricao, LocalDate data, Professor professor, Sala sala) {
+        this.idAula = idAula;
         this.titulo = titulo;
         this.descricao = descricao;
+        this.data = data;
         this.professor = professor;
         this.sala = sala;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public int getIdAula() {
+        return this.idAula;
     }
 
     public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+        return this.titulo;
     }
 
     public String getDescricao() {
-        return descricao;
+        return this.descricao;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public LocalDate getData() {
+        return this.data;
     }
 
     public Professor getProfessor() {
-        return professor;
-    }
-
-    public void setProfessor(Professor professor) {
-        this.professor = professor;
+        return this.professor;
     }
 
     public Sala getSala() {
-        return sala;
-    }
-
-    public void setSala(Sala sala) {
-        this.sala = sala;
+        return this.sala;
     }
 }

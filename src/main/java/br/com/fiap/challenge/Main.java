@@ -1,106 +1,109 @@
 package br.com.fiap.challenge;
 
+import br.com.fiap.challenge.dao.AlunoDAO;
+import br.com.fiap.challenge.dao.ProfessorDAO;
+import br.com.fiap.challenge.dao.SalaDAO;
 import br.com.fiap.challenge.model.Aluno;
 import br.com.fiap.challenge.model.Aula;
 import br.com.fiap.challenge.model.Professor;
 import br.com.fiap.challenge.model.Sala;
-import br.com.fiap.challenge.service.SistemaReserva;
 
-import java.sql.SQLException;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        SistemaReserva sistema = new SistemaReserva();
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        AlunoDAO alunoDAO = new AlunoDAO();
+        ProfessorDAO professorDAO = new ProfessorDAO();
+        SalaDAO salaDAO = new SalaDAO();
 
-        // Criar professores e alunos
-        Professor prof1 = new Professor(1,"Dr. Silva", "dr.silva@fmusp.br");
-        sistema.adicionarProfessor(prof1);
-
-        Aluno aluno1 = new Aluno(0,"Maria", "maria@fmusp.br");
-        Aluno aluno2 = new Aluno(1,"João", "joao@fmusp.br");
-        sistema.adicionarAluno(aluno1);
-        sistema.adicionarAluno(aluno2);
-
-        Sala sala1 = new Sala("sala1",30);
-
-        boolean executando = true;
-        while (executando) {
-            System.out.println("Menu:");
-            System.out.println("1. Professor: Marcar Aula");
-            System.out.println("2. Aluno: Registrar Aula");
-            System.out.println("3. Aluno: Marcar Aula");
-            System.out.println("4. Ver Informações do Aluno");
+        while (true) {
+            System.out.println("Escolha uma opção:");
+            System.out.println("1. Cadastrar Aluno");
+            System.out.println("2. Cadastrar Professor");
+            System.out.println("3. Cadastrar Sala");
+            System.out.println("4. Cadastrar Aula");
             System.out.println("5. Sair");
-            System.out.print("Escolha uma opção: ");
+
             int opcao = scanner.nextInt();
-            scanner.nextLine(); // Limpar o buffer
+            scanner.nextLine(); // Limpa o buffer
 
             switch (opcao) {
                 case 1:
-                    System.out.println("Professor: Marcar Aula");
-                    System.out.print("Título da Aula: ");
-                    String titulo = scanner.nextLine();
-                    System.out.print("Descrição da Aula: ");
-                    String descricao = scanner.nextLine();
-                    System.out.print("Digite a sala: ");
-                    Aula novaAula = new Aula(titulo, descricao, prof1,sala1);
-                    System.out.println("Aula marcada com sucesso!");
+                    System.out.print("Nome do Aluno: ");
+                    String nomeAluno = scanner.nextLine();
+                    System.out.print("Email do Aluno: ");
+                    String emailAluno = scanner.nextLine();
+                    int idAluno = 0;
+                    Aluno aluno = new Aluno(idAluno,nomeAluno, emailAluno, 0, 1);
+                    alunoDAO.adicionarAluno(aluno);
+                    System.out.println("Aluno cadastrado com sucesso.");
                     break;
 
                 case 2:
-                    System.out.println("Aluno: Registrar Aula");
-                    System.out.println("Escolha um aluno:");
-                    List<Aluno> alunos = sistema.listarAlunos();
-                    for (int i = 0; i < alunos.size(); i++) {
-                        System.out.println((i + 1) + ". " + alunos.get(i).getNome());
-                    }
-                    int escolhaAluno = scanner.nextInt() - 1;
-                    scanner.nextLine(); // Limpar o buffer
-                    Aluno alunoSelecionado = alunos.get(escolhaAluno);
-                    System.out.println("Registrando participação na aula para " + alunoSelecionado.getNome());
-                    System.out.println("Participação registrada!");
+                    System.out.print("Nome do Professor: ");
+                    String nomeProfessor = scanner.nextLine();
+                    System.out.print("Email do Professor: ");
+                    String emailProfessor = scanner.nextLine();
+
+                    int idProfessor = 0;
+                    Professor professor = new Professor(idProfessor, nomeProfessor, emailProfessor);
+                    professorDAO.adicionarProfessor(professor);
+                    System.out.println("Professor cadastrado com sucesso.");
                     break;
 
-                case 3:
-                    System.out.println("Aluno: Marcar Aula");
-                    System.out.println("Escolha um aluno:");
-                    alunos = sistema.listarAlunos();
-                    for (int i = 0; i < alunos.size(); i++) {
-                        System.out.println((i + 1) + ". " + alunos.get(i).getNome());
-                    }
-                    escolhaAluno = scanner.nextInt() - 1;
-                    scanner.nextLine(); // Limpar o buffer
-                    alunoSelecionado = alunos.get(escolhaAluno);
-                    System.out.println("Escolha uma aula:");
-                    System.out.println("Marque a aula para o aluno " + alunoSelecionado.getNome());
+                case 3: // Cadastrar Sala
+                    System.out.print("Número da Sala: ");
+                    String numeroSala = scanner.nextLine();
+                    System.out.print("Capacidade da Sala: ");
+                    int capacidadeSala = scanner.nextInt();
+                    scanner.nextLine(); // Limpa o buffer
+                    int idSala = 0;
+                    Sala sala = new Sala(idSala, numeroSala, capacidadeSala);
+                    salaDAO.adicionarSala(sala);
+                    System.out.println("Sala cadastrada com sucesso.");
                     break;
 
-                case 4:
-                    System.out.println("Ver Informações do Aluno");
-                    System.out.println("Escolha um aluno:");
-                    alunos = sistema.listarAlunos();
-                    for (int i = 0; i < alunos.size(); i++) {
-                        System.out.println((i + 1) + ". " + alunos.get(i).getNome());
+                case 4: // Cadastrar Aula
+                    System.out.print("Título da Aula: ");
+                    String tituloAula = scanner.nextLine();
+                    System.out.print("Descrição da Aula: ");
+                    String descricaoAula = scanner.nextLine();
+                    System.out.print("Data da Aula (YYYY-MM-DD): ");
+                    String dataAulaStr = scanner.nextLine();
+                    LocalDate dataAula = LocalDate.parse(dataAulaStr);
+
+                    System.out.print("ID do Professor: ");
+                    int idProfessorAula = scanner.nextInt();
+                    Professor prof = professorDAO.buscarProfessorPorId(idProfessorAula);
+                    if (prof == null) {
+                        System.out.println("Professor não encontrado.");
+                        break;
                     }
-                    escolhaAluno = scanner.nextInt() - 1;
-                    scanner.nextLine(); // Limpar o buffer
-                    alunoSelecionado = alunos.get(escolhaAluno);
-                    System.out.println("Aluno: " + alunoSelecionado.getNome() + ", Email: " + alunoSelecionado.getEmail());
+
+                    System.out.print("ID da Sala: ");
+                    int idSalaAula = scanner.nextInt();
+                    Sala sal = salaDAO.buscarSalaPorId(idSalaAula);
+                    if (sal == null) {
+                        System.out.println("Sala não encontrada.");
+                        break;
+                    }
+
+                    int idAula = 0;
+                    Aula aula = new Aula(idAula, tituloAula, descricaoAula, dataAula, prof, sal);
+                    System.out.println("Aula cadastrada com sucesso.");
                     break;
 
-                case 5:
-                    executando = false;
-                    break;
+                case 5: // Sair
+                    System.out.println("Saindo...");
+                    scanner.close();
+                    return;
 
                 default:
-                    System.out.println("Opção inválida. Tente novamente.");
-                    break;
+                    System.out.println("Opção inválida.");
             }
         }
-
-        scanner.close();
     }
 }

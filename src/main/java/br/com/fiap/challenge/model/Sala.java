@@ -1,36 +1,25 @@
 package br.com.fiap.challenge.model;
 
 public class Sala {
-    private int id;
-    private String nome;
+    private int idSala;
+    private String numero;
     private int capacidade;
 
-    public Sala(String nome, int capacidade) {
-        this.nome = nome;
+    public Sala(int idSala, String numero, int capacidade) {
+        this.idSala = idSala;
+        this.numero = numero;
         this.capacidade = capacidade;
     }
 
-    public int getId() {
-        return id;
+    public int getIdSala() {
+        return this.idSala;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
+    public String getNumero() {
+        return this.numero;
     }
 
     public int getCapacidade() {
-        return capacidade;
-    }
-
-    public void setCapacidade(int capacidade) {
-        this.capacidade = capacidade;
+        return this.capacidade;
     }
 }

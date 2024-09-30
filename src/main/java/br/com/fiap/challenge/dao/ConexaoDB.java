@@ -6,8 +6,17 @@ import java.sql.SQLException;
 
 public class ConexaoDB {
 
-    public static Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("oracle.jdbc.driver.OracleDriver");
-        return DriverManager.getConnection("jdbc:oracle:thin:@oracle.fiap.com.br:1521:orcl", "rm99465", "030205");
+    private static final String URL = "jdbc:sqlite:meu_banco.db";
+
+    public static Connection getConnection() {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(URL);
+            System.out.println("Conectado ao banco de dados SQLite.");
+        } catch (SQLException e) {
+            System.out.println("Erro ao conectar ao banco de dados SQLite.");
+            e.printStackTrace();
+        }
+        return conn;
     }
 }

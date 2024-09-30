@@ -1,17 +1,18 @@
 package br.com.fiap.challenge.model;
 
 public class Professor extends Usuario {
-    private int id;
+    private int idProfessor;
 
-    public Professor(int id,String nome, String email) {
-        super(id,nome, email);
+    public Professor(int idProfessor, String nome, String email) {
+        super(idProfessor,nome, email);
+        this.idProfessor = idProfessor;
     }
 
-    public int getId() {
-        return id;
+    public int getIdProfessor() {
+        return this.idProfessor;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdProfessor(int idProfessor) {
+        this.idProfessor = idProfessor;
     }
 }

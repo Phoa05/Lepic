@@ -7,55 +7,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlunoDAO {
-    private Connection connection;
-
-    public AlunoDAO() throws ClassNotFoundException, SQLException {
-        this.connection = ConexaoDB.getConnection();
-    }
-
-    public void adicionarAluno(Aluno aluno) throws SQLException {
-        String sql = "INSERT INTO Aluno (nome, email) VALUES (?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+    // Método para adicionar aluno
+    public void adicionarAluno(Aluno aluno) {
+        String sql = "INSERT INTO Aluno (nome, email, pontuacao, nivel) VALUES (?, ?, ?, ?)";
+        try (Connection conn = ConexaoDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, aluno.getNome());
             stmt.setString(2, aluno.getEmail());
+            stmt.setInt(3, aluno.getPontuacao());
+            stmt.setInt(4, aluno.getNivel());
             stmt.executeUpdate();
+            System.out.println("Aluno adicionado com sucesso.");
+        } catch (SQLException e) {
+            System.out.println("Erro ao adicionar aluno.");
+            e.printStackTrace();
         }
     }
 
-    public List<Aluno> listarAlunos() throws SQLException {
+    // Método para listar todos os alunos
+    public List<Aluno> listarAlunos() {
         List<Aluno> alunos = new ArrayList<>();
         String sql = "SELECT * FROM Aluno";
-        try (PreparedStatement stmt = connection.prepareStatement(sql);
+        try (Connection conn = ConexaoDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                String nome = "";
-                String email = "";
-                int idAluno = 0;
-                Aluno aluno = new Aluno(idAluno,nome,email);
-                aluno.setId(rs.getInt("id"));
-                aluno.setNome(rs.getString("nome"));
-                aluno.setEmail(rs.getString("email"));
+                Aluno aluno = new Aluno(rs.getInt("id_aluno"),
+                        rs.getString("nome"),
+                        rs.getString("email"),
+                        rs.getInt("pontuacao"),
+                        rs.getInt("nivel"));
                 alunos.add(aluno);
             }
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar alunos.");
+            e.printStackTrace();
         }
         return alunos;
-    }
-
-    public void atualizarAluno(Aluno aluno) throws SQLException {
-        String sql = "UPDATE Aluno SET nome = ?, email = ? WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, aluno.getNome());
-            stmt.setString(2, aluno.getEmail());
-            stmt.setInt(3, aluno.getId());
-            stmt.executeUpdate();
-        }
-    }
-
-    public void deletarAluno(int id) throws SQLException {
-        String sql = "DELETE FROM alunos WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
-        }
     }
 }

@@ -8,54 +8,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SalaDAO {
-    private Connection connection;
-
-    public SalaDAO() throws ClassNotFoundException, SQLException {
-        this.connection = ConexaoDB.getConnection();
-    }
-
-    public void adicionarSala(Sala sala) throws SQLException {
-        String sql = "INSERT INTO Sala (nome, capacidade) VALUES (?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, sala.getNome());
+    // Método para adicionar sala
+    public void adicionarSala(Sala sala) {
+        String sql = "INSERT INTO Sala (numero, capacidade) VALUES (?, ?)";
+        try (Connection conn = ConexaoDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, sala.getNumero());
             stmt.setInt(2, sala.getCapacidade());
             stmt.executeUpdate();
+            System.out.println("Sala adicionada com sucesso.");
+        } catch (SQLException e) {
+            System.out.println("Erro ao adicionar sala.");
+            e.printStackTrace();
         }
     }
 
-    public List<Sala> listarSalas() throws SQLException {
+    // Método para listar todas as salas
+    public List<Sala> listarSalas() {
         List<Sala> salas = new ArrayList<>();
         String sql = "SELECT * FROM Sala";
-        try (PreparedStatement stmt = connection.prepareStatement(sql);
+        try (Connection conn = ConexaoDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                String nome = "";
-                int capacidade = 30;
-                Sala sala = new Sala(nome,capacidade);
-                sala.setId(rs.getInt("id"));
-                sala.setNome(rs.getString("nome"));
-                sala.setCapacidade(rs.getInt("capacidade"));
+                Sala sala = new Sala(rs.getInt("id_sala"),
+                        rs.getString("numero"),
+                        rs.getInt("capacidade"));
                 salas.add(sala);
             }
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar salas.");
+            e.printStackTrace();
         }
         return salas;
     }
-
-    public void atualizarSala(Sala sala) throws SQLException {
-        String sql = "UPDATE Sala SET nome = ?, capacidade = ? WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, sala.getNome());
-            stmt.setInt(2, sala.getCapacidade());
-            stmt.setInt(3, sala.getId());
-            stmt.executeUpdate();
-        }
-    }
-
-    public void deletarSala(int id) throws SQLException {
-        String sql = "DELETE FROM Sala WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
-        }
+    public Sala buscarSalaPorId(int id) {
+        // Simulação de busca no banco de dados
+        return new Sala(id, "101", 30);
     }
 }

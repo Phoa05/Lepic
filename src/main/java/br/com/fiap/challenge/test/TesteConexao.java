@@ -11,7 +11,7 @@ public class TesteConexao {
             Connection cn = ConexaoDB.getConnection();
             System.out.println("Conectado com o banco de dados");
             cn.close();
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
