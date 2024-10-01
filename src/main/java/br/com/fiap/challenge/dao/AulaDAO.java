@@ -29,8 +29,7 @@ public class AulaDAO {
         }
     }
 
-    // Método para listar todas as aulas
-    public List<Aula> listarAulas() {
+    public static List<Aula> listarAulas() {
         List<Aula> aulas = new ArrayList<>();
         String sql = "SELECT * FROM Aula";
         try (Connection conn = ConexaoDB.getConnection();

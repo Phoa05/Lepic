@@ -7,19 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlunoDAO {
-    // Método para adicionar aluno
+    private Connection conn;
     public void adicionarAluno(Aluno aluno) {
         String sql = "INSERT INTO Aluno (nome, email, pontuacao, nivel) VALUES (?, ?, ?, ?)";
-        try (Connection conn = ConexaoDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, aluno.getNome());
-            stmt.setString(2, aluno.getEmail());
-            stmt.setInt(3, aluno.getPontuacao());
-            stmt.setInt(4, aluno.getNivel());
-            stmt.executeUpdate();
-            System.out.println("Aluno adicionado com sucesso.");
+        try (Connection conn = ConexaoDB.getConnection(); // Verifique se a conexão está correta
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, aluno.getNome());
+            pstmt.setString(2, aluno.getEmail());
+            pstmt.setInt(3, aluno.getPontuacao());
+            pstmt.setInt(4, aluno.getNivel());
+            pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Erro ao adicionar aluno.");
             e.printStackTrace();
         }
     }

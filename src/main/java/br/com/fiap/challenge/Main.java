@@ -7,13 +7,15 @@ import br.com.fiap.challenge.model.Aluno;
 import br.com.fiap.challenge.model.Aula;
 import br.com.fiap.challenge.model.Professor;
 import br.com.fiap.challenge.model.Sala;
+import br.com.fiap.challenge.service.CriarTabelas;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        CriarTabelas.criarTabelas();
+
         Scanner scanner = new Scanner(System.in);
         AlunoDAO alunoDAO = new AlunoDAO();
         ProfessorDAO professorDAO = new ProfessorDAO();
@@ -36,8 +38,7 @@ public class Main {
                     String nomeAluno = scanner.nextLine();
                     System.out.print("Email do Aluno: ");
                     String emailAluno = scanner.nextLine();
-                    int idAluno = 0;
-                    Aluno aluno = new Aluno(idAluno,nomeAluno, emailAluno, 0, 1);
+                    Aluno aluno = new Aluno(0, nomeAluno, emailAluno, 0, 1);
                     alunoDAO.adicionarAluno(aluno);
                     System.out.println("Aluno cadastrado com sucesso.");
                     break;
@@ -47,9 +48,7 @@ public class Main {
                     String nomeProfessor = scanner.nextLine();
                     System.out.print("Email do Professor: ");
                     String emailProfessor = scanner.nextLine();
-
-                    int idProfessor = 0;
-                    Professor professor = new Professor(idProfessor, nomeProfessor, emailProfessor);
+                    Professor professor = new Professor(0, nomeProfessor, emailProfessor);
                     professorDAO.adicionarProfessor(professor);
                     System.out.println("Professor cadastrado com sucesso.");
                     break;
@@ -60,8 +59,7 @@ public class Main {
                     System.out.print("Capacidade da Sala: ");
                     int capacidadeSala = scanner.nextInt();
                     scanner.nextLine(); // Limpa o buffer
-                    int idSala = 0;
-                    Sala sala = new Sala(idSala, numeroSala, capacidadeSala);
+                    Sala sala = new Sala(0, numeroSala, capacidadeSala);
                     salaDAO.adicionarSala(sala);
                     System.out.println("Sala cadastrada com sucesso.");
                     break;
@@ -91,8 +89,7 @@ public class Main {
                         break;
                     }
 
-                    int idAula = 0;
-                    Aula aula = new Aula(idAula, tituloAula, descricaoAula, dataAula, prof, sal);
+                    Aula aula = new Aula(0, tituloAula, descricaoAula, dataAula, prof, sal);
                     System.out.println("Aula cadastrada com sucesso.");
                     break;
 
